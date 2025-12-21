@@ -1,0 +1,1112 @@
+/**
+ * Стили портала промтов
+ * Дизайн в стиле Apple Liquid Glass (Glassmorphism)
+ * 
+ * Содержание:
+ * 1. CSS переменные
+ * 2. Сброс и базовые стили
+ * 3. Фоновые декорации
+ * 4. Шапка сайта
+ * 5. Поиск
+ * 6. Основной контент
+ * 7. Сетка категорий
+ * 8. Карточки
+ * 9. Модальное окно
+ * 10. Утилиты и состояния
+ * 11. Анимации
+ * 12. Адаптивность
+ */
+
+/* ==========================================
+   1. CSS ПЕРЕМЕННЫЕ
+   ========================================== */
+:root {
+    /* Основные цвета фона */
+    --bg-primary: #f5f5f7;
+    --bg-secondary: #fbfbfd;
+    --bg-gradient: linear-gradient(180deg, #fbfbfd 0%, #f5f5f7 100%);
+    
+    /* Цвета стеклянных элементов */
+    --glass-bg: rgba(255, 255, 255, 0.72);
+    --glass-bg-hover: rgba(255, 255, 255, 0.85);
+    --glass-border: rgba(255, 255, 255, 0.5);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    --glass-shadow-hover: 0 12px 48px rgba(0, 0, 0, 0.12);
+    
+    /* Акцентные цвета */
+    --accent-blue: #007AFF;
+    --accent-blue-light: rgba(0, 122, 255, 0.1);
+    --accent-purple: #5856D6;
+    --accent-gradient: linear-gradient(135deg, #007AFF 0%, #5856D6 100%);
+    
+    /* Цвета текста */
+    --text-primary: #1d1d1f;
+    --text-secondary: #6e6e73;
+    --text-tertiary: #86868b;
+    
+    /* Размытие для glass эффекта */
+    --blur-amount: 20px;
+    --blur-amount-strong: 40px;
+    
+    /* Скругления */
+    --radius-sm: 12px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --radius-xl: 32px;
+    
+    /* Отступы */
+    --spacing-xs: 8px;
+    --spacing-sm: 12px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    --spacing-2xl: 48px;
+    
+    /* Переходы */
+    --transition-fast: 0.15s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.5s ease;
+    
+    /* Размеры контейнера */
+    --container-max-width: 1440px;
+    --container-padding: 24px;
+    
+    /* Шрифты */
+    --font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ==========================================
+   2. СБРОС И БАЗОВЫЕ СТИЛИ
+   ========================================== */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    font-family: var(--font-family);
+    background: var(--bg-gradient);
+    color: var(--text-primary);
+    line-height: 1.5;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Glass эффект - базовый класс */
+.glass-effect {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--blur-amount));
+    -webkit-backdrop-filter: blur(var(--blur-amount));
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+}
+
+/* ==========================================
+   3. ФОНОВЫЕ ДЕКОРАЦИИ
+   ========================================== */
+.background-decoration {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+}
+
+/* Градиентные шары для создания атмосферы */
+.gradient-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.5;
+    animation: float 20s ease-in-out infinite;
+}
+
+.orb-1 {
+    width: 600px;
+    height: 600px;
+    background: linear-gradient(135deg, rgba(0, 122, 255, 0.3) 0%, rgba(88, 86, 214, 0.2) 100%);
+    top: -200px;
+    right: -100px;
+    animation-delay: 0s;
+}
+
+.orb-2 {
+    width: 500px;
+    height: 500px;
+    background: linear-gradient(135deg, rgba(88, 86, 214, 0.25) 0%, rgba(175, 82, 222, 0.15) 100%);
+    bottom: -150px;
+    left: -100px;
+    animation-delay: -7s;
+}
+
+.orb-3 {
+    width: 400px;
+    height: 400px;
+    background: linear-gradient(135deg, rgba(0, 122, 255, 0.2) 0%, rgba(52, 199, 89, 0.1) 100%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation-delay: -14s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translate(0, 0) scale(1);
+    }
+    25% {
+        transform: translate(30px, -30px) scale(1.05);
+    }
+    50% {
+        transform: translate(-20px, 20px) scale(0.95);
+    }
+    75% {
+        transform: translate(20px, 10px) scale(1.02);
+    }
+}
+
+/* ==========================================
+   4. ШАПКА САЙТА
+   ========================================== */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: var(--spacing-md) var(--container-padding);
+    background: rgba(251, 251, 253, 0.8);
+    backdrop-filter: blur(var(--blur-amount-strong));
+    -webkit-backdrop-filter: blur(var(--blur-amount-strong));
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.header-container {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-lg);
+}
+
+/* Логотип */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-weight: 600;
+    font-size: 1.25rem;
+    color: var(--text-primary);
+    transition: opacity var(--transition-fast);
+    flex-shrink: 0;
+}
+
+.logo:hover {
+    opacity: 0.7;
+}
+
+.logo-icon {
+    font-size: 1.5rem;
+}
+
+.logo-text {
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ==========================================
+   5. ПОИСК
+   ========================================== */
+.search-container {
+    position: relative;
+    flex: 1;
+    max-width: 480px;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-lg);
+    transition: all var(--transition-normal);
+}
+
+.search-box:focus-within {
+    background: var(--glass-bg-hover);
+    box-shadow: var(--glass-shadow-hover), 0 0 0 3px var(--accent-blue-light);
+}
+
+.search-icon {
+    color: var(--text-tertiary);
+    flex-shrink: 0;
+}
+
+.search-input {
+    flex: 1;
+    border: none;
+    background: none;
+    font-size: 1rem;
+    color: var(--text-primary);
+    outline: none;
+    min-width: 0;
+}
+
+.search-input::placeholder {
+    color: var(--text-tertiary);
+}
+
+.search-clear {
+    display: none;
+    padding: 4px;
+    color: var(--text-tertiary);
+    transition: color var(--transition-fast);
+}
+
+.search-clear:hover {
+    color: var(--text-primary);
+}
+
+.search-clear.visible {
+    display: block;
+}
+
+/* Результаты поиска */
+.search-results {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    max-height: 400px;
+    overflow-y: auto;
+    border-radius: var(--radius-md);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all var(--transition-normal);
+    z-index: 200;
+}
+
+.search-results.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.search-result-item {
+    display: block;
+    padding: var(--spacing-md);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    transition: background var(--transition-fast);
+    cursor: pointer;
+}
+
+.search-result-item:last-child {
+    border-bottom: none;
+}
+
+.search-result-item:hover {
+    background: rgba(0, 122, 255, 0.05);
+}
+
+.search-result-category {
+    font-size: 0.75rem;
+    color: var(--accent-blue);
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.search-result-title {
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.search-result-description {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.search-no-results {
+    padding: var(--spacing-xl);
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+/* ==========================================
+   6. ОСНОВНОЙ КОНТЕНТ
+   ========================================== */
+.main-content {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    padding: var(--spacing-xl) var(--container-padding);
+    min-height: calc(100vh - 80px);
+}
+
+/* Хлебные крошки */
+.breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-lg);
+    font-size: 0.875rem;
+    animation: fadeIn 0.3s ease;
+}
+
+.breadcrumb-link {
+    color: var(--accent-blue);
+    transition: opacity var(--transition-fast);
+}
+
+.breadcrumb-link:hover {
+    opacity: 0.7;
+}
+
+.breadcrumb-separator {
+    color: var(--text-tertiary);
+}
+
+.breadcrumb-current {
+    color: var(--text-secondary);
+}
+
+/* Заголовок страницы */
+.page-header {
+    margin-bottom: var(--spacing-2xl);
+    text-align: center;
+}
+
+.page-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: var(--spacing-sm);
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: fadeInUp 0.6s ease;
+}
+
+.page-subtitle {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    animation: fadeInUp 0.6s ease 0.1s backwards;
+}
+
+/* Контейнер для контента */
+.content-container {
+    animation: fadeIn 0.5s ease;
+}
+
+/* ==========================================
+   7. СЕТКА КАТЕГОРИЙ
+   ========================================== */
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+/* ==========================================
+   8. КАРТОЧКИ
+   ========================================== */
+
+/* Базовая карточка */
+.card {
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: all var(--transition-normal);
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--glass-shadow-hover);
+}
+
+.card:hover .glass-effect,
+.card.glass-effect:hover {
+    background: var(--glass-bg-hover);
+}
+
+/* Карточка категории */
+.category-card {
+    padding: var(--spacing-xl);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-height: 200px;
+}
+
+.category-icon {
+    width: 80px;
+    height: 80px;
+    margin-bottom: var(--spacing-md);
+    font-size: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent-blue-light);
+    border-radius: var(--radius-md);
+    transition: transform var(--transition-normal);
+}
+
+.category-card:hover .category-icon {
+    transform: scale(1.1);
+}
+
+.category-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-xs);
+    color: var(--text-primary);
+}
+
+.category-count {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* Карточка промта */
+.prompt-card {
+    padding: var(--spacing-lg);
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+}
+
+.prompt-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.prompt-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-xs);
+    color: var(--text-primary);
+}
+
+.prompt-description {
+    font-size: 0.9375rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.prompt-copy-btn {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    background: var(--accent-blue-light);
+    color: var(--accent-blue);
+    transition: all var(--transition-fast);
+}
+
+.prompt-copy-btn:hover {
+    background: var(--accent-blue);
+    color: white;
+}
+
+/* Список промтов */
+.prompts-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+/* Кнопка "Назад" */
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--accent-blue);
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+    margin-bottom: var(--spacing-lg);
+}
+
+.back-button:hover {
+    background: var(--accent-blue-light);
+}
+
+/* ==========================================
+   9. МОДАЛЬНОЕ ОКНО
+   ========================================== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-lg);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-normal);
+}
+
+.modal-overlay.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal {
+    width: 100%;
+    max-width: 720px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--radius-xl);
+    transform: scale(0.95) translateY(20px);
+    transition: transform var(--transition-normal);
+    overflow: hidden;
+}
+
+.modal-overlay.visible .modal {
+    transform: scale(1) translateY(0);
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-lg);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    flex-shrink: 0;
+}
+
+.modal-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    flex: 1;
+    padding-right: var(--spacing-md);
+}
+
+.modal-close {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: var(--text-secondary);
+    transition: all var(--transition-fast);
+    flex-shrink: 0;
+}
+
+.modal-close:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--text-primary);
+}
+
+.modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--spacing-lg);
+}
+
+.modal-description {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: var(--spacing-xl);
+}
+
+.modal-prompt-container {
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+.modal-prompt-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.modal-prompt-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.modal-prompt-content {
+    padding: var(--spacing-lg);
+    font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--text-primary);
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* Кнопки */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+}
+
+.btn-primary {
+    background: var(--accent-blue);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #0066d6;
+}
+
+.btn-copy {
+    background: var(--accent-blue-light);
+    color: var(--accent-blue);
+}
+
+.btn-copy:hover {
+    background: var(--accent-blue);
+    color: white;
+}
+
+.btn-copy.copied {
+    background: #34c759;
+    color: white;
+}
+
+/* ==========================================
+   10. УТИЛИТЫ И СОСТОЯНИЯ
+   ========================================== */
+
+/* Загрузка */
+.loading {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-2xl);
+    gap: var(--spacing-md);
+}
+
+.loading.visible {
+    display: flex;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--accent-blue-light);
+    border-top-color: var(--accent-blue);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-text {
+    font-size: 0.9375rem;
+    color: var(--text-secondary);
+}
+
+/* Ошибка */
+.error-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-2xl);
+    text-align: center;
+    animation: fadeIn 0.3s ease;
+}
+
+.error-icon {
+    font-size: 4rem;
+    margin-bottom: var(--spacing-md);
+}
+
+.error-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-primary);
+}
+
+.error-text {
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-lg);
+}
+
+/* Скрытый элемент */
+.hidden {
+    display: none !important;
+}
+
+/* ==========================================
+   11. АНИМАЦИИ
+   ========================================== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Анимация появления карточек */
+.card {
+    animation: cardFadeIn 0.5s ease backwards;
+}
+
+@keyframes cardFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Задержки для последовательной анимации карточек */
+.card:nth-child(1) { animation-delay: 0.05s; }
+.card:nth-child(2) { animation-delay: 0.1s; }
+.card:nth-child(3) { animation-delay: 0.15s; }
+.card:nth-child(4) { animation-delay: 0.2s; }
+.card:nth-child(5) { animation-delay: 0.25s; }
+.card:nth-child(6) { animation-delay: 0.3s; }
+.card:nth-child(7) { animation-delay: 0.35s; }
+.card:nth-child(8) { animation-delay: 0.4s; }
+.card:nth-child(9) { animation-delay: 0.45s; }
+.card:nth-child(10) { animation-delay: 0.5s; }
+
+/* ==========================================
+   12. АДАПТИВНОСТЬ
+   ========================================== */
+
+/* Большие экраны (1920px+) */
+@media (min-width: 1920px) {
+    :root {
+        --container-max-width: 1600px;
+    }
+    
+    .categories-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .page-title {
+        font-size: 3rem;
+    }
+}
+
+/* Средние десктопы (1440px) */
+@media (max-width: 1440px) {
+    .categories-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Маленькие десктопы (1024px) */
+@media (max-width: 1024px) {
+    :root {
+        --container-padding: 20px;
+    }
+    
+    .categories-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .page-title {
+        font-size: 2rem;
+    }
+    
+    .page-subtitle {
+        font-size: 1rem;
+    }
+}
+
+/* Планшеты (768px) */
+@media (max-width: 768px) {
+    :root {
+        --spacing-xl: 24px;
+        --spacing-2xl: 32px;
+    }
+    
+    .header-container {
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+    
+    .search-container {
+        max-width: 100%;
+    }
+    
+    .logo {
+        align-self: flex-start;
+    }
+    
+    .categories-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-md);
+    }
+    
+    .category-card {
+        padding: var(--spacing-lg);
+        min-height: 160px;
+    }
+    
+    .category-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 2rem;
+    }
+    
+    .category-name {
+        font-size: 1.125rem;
+    }
+    
+    .modal {
+        max-height: 90vh;
+        border-radius: var(--radius-lg);
+    }
+    
+    .modal-title {
+        font-size: 1.25rem;
+    }
+    
+    .page-title {
+        font-size: 1.75rem;
+    }
+}
+
+/* Мобильные устройства (375px) */
+@media (max-width: 480px) {
+    :root {
+        --container-padding: 16px;
+        --spacing-lg: 16px;
+        --spacing-xl: 20px;
+        --spacing-2xl: 24px;
+    }
+    
+    .logo-text {
+        font-size: 1.1rem;
+    }
+    
+    .categories-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .category-card {
+        flex-direction: row;
+        text-align: left;
+        min-height: auto;
+        gap: var(--spacing-md);
+    }
+    
+    .category-icon {
+        margin-bottom: 0;
+        width: 56px;
+        height: 56px;
+        flex-shrink: 0;
+    }
+    
+    .category-info {
+        flex: 1;
+    }
+    
+    .page-header {
+        text-align: left;
+        margin-bottom: var(--spacing-xl);
+    }
+    
+    .page-title {
+        font-size: 1.5rem;
+    }
+    
+    .page-subtitle {
+        font-size: 0.9375rem;
+    }
+    
+    .prompt-card {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+    
+    .prompt-copy-btn {
+        width: 100%;
+        height: auto;
+        padding: var(--spacing-sm);
+    }
+    
+    .prompt-copy-btn::after {
+        content: 'Скопировать';
+        margin-left: var(--spacing-xs);
+    }
+    
+    .modal-overlay {
+        padding: var(--spacing-sm);
+    }
+    
+    .modal {
+        max-height: 95vh;
+        border-radius: var(--radius-md);
+    }
+    
+    .modal-header,
+    .modal-body {
+        padding: var(--spacing-md);
+    }
+    
+    .modal-prompt-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-sm);
+    }
+    
+    .btn-copy {
+        width: 100%;
+    }
+    
+    .search-box {
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
+    
+    /* Скрываем большие орбы на мобильных */
+    .gradient-orb {
+        opacity: 0.3;
+    }
+    
+    .orb-1 {
+        width: 300px;
+        height: 300px;
+    }
+    
+    .orb-2 {
+        width: 250px;
+        height: 250px;
+    }
+    
+    .orb-3 {
+        display: none;
+    }
+}
+
+/* Поддержка темной цветовой схемы системы (опционально) */
+@media (prefers-color-scheme: dark) {
+    /* Можно добавить тёмную тему в будущем */
+}
+
+/* Уменьшенная анимация для пользователей с настройкой prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .gradient-orb {
+        animation: none;
+    }
+}
+
+/* Стили для скроллбара */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+/* Стили для выделения текста */
+::selection {
+    background: var(--accent-blue);
+    color: white;
+}

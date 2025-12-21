@@ -1,0 +1,22 @@
+{
+  "categories": [
+    {
+      "id": "marketing",
+      "name": "Маркетинг",
+      "image": "📈",
+      "promptCount": 5
+    },
+    {
+      "id": "coding",
+      "name": "Программирование",
+      "image": "💻",
+      "promptCount": 5
+    },
+    {
+      "id": "writing",
+      "name": "Копирайтинг",
+      "image": "✍️",
+      "promptCount": 5
+    }
+  ]
+}
