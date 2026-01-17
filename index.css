@@ -1,0 +1,410 @@
+/**
+ * PromtSpace - Claude-inspired Glass Design
+ * Global CSS with modern glassmorphism effects and dual light/dark themes
+ */
+
+/* =====================================================
+   RESET & BASE STYLES
+   ===================================================== */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:root {
+  /* Claude-inspired palette (light) */
+  --bg-body: #f6f7fb;
+  --bg-body-gradient: radial-gradient(at 0% 20%, rgba(111, 91, 255, 0.08) 0, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(255, 214, 102, 0.12) 0, transparent 45%),
+    radial-gradient(at 30% 90%, rgba(126, 186, 255, 0.12) 0, transparent 45%),
+    radial-gradient(at 80% 70%, rgba(243, 230, 255, 0.25) 0, transparent 45%);
+  --glass-surface: rgba(255, 255, 255, 0.72);
+  --glass-surface-strong: rgba(255, 255, 255, 0.82);
+  --glass-border: rgba(255, 255, 255, 0.5);
+  --glass-shadow: 0 14px 48px rgba(17, 24, 39, 0.08);
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --muted: #94a3b8;
+  --accent: #6f5bff;
+  --accent-2: #f5c76d;
+  --accent-soft: rgba(111, 91, 255, 0.12);
+  --selection-bg: rgba(111, 91, 255, 0.18);
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  background-color: var(--bg-body);
+  background-image: var(--bg-body-gradient);
+  background-attachment: fixed;
+  min-height: 100vh;
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+/* =====================================================
+   CUSTOM SCROLLBAR (Liquid Glass Style)
+   ===================================================== */
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+/* Custom scrollbar for modal content */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(0, 122, 255, 0.2);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 122, 255, 0.3);
+}
+
+/* =====================================================
+   ANIMATIONS & KEYFRAMES
+   ===================================================== */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes bounce-subtle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+/* Animation utility classes */
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Stagger animation delays for grid items */
+.animate-slide-up:nth-child(1) { animation-delay: 0s; }
+.animate-slide-up:nth-child(2) { animation-delay: 0.1s; }
+.animate-slide-up:nth-child(3) { animation-delay: 0.2s; }
+.animate-slide-up:nth-child(4) { animation-delay: 0.3s; }
+.animate-slide-up:nth-child(5) { animation-delay: 0.4s; }
+.animate-slide-up:nth-child(6) { animation-delay: 0.5s; }
+
+/* =====================================================
+   RESPONSIVE UTILITIES
+   ===================================================== */
+
+/* Mobile-first approach with breakpoints matching requirements */
+/* 375px (Mobile), 768px (Tablet), 1024px (Desktop), 1440px (Large Desktop), 1920px+ (XL) */
+
+@media (max-width: 374px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 375px) and (max-width: 767px) {
+  html {
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 1024px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+/* =====================================================
+   SELECTION STYLES
+   ===================================================== */
+
+::selection {
+  background-color: var(--selection-bg);
+  color: var(--accent);
+}
+
+::-moz-selection {
+  background-color: var(--selection-bg);
+  color: var(--accent);
+}
+
+/* =====================================================
+   UTILITY CLASSES
+   ===================================================== */
+
+/* Glass effect utilities */
+.glass-card {
+  background: var(--glass-surface);
+  backdrop-filter: blur(22px) saturate(180%);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+.glass-card-strong {
+  background: var(--glass-surface-strong);
+  backdrop-filter: blur(26px) saturate(200%);
+  -webkit-backdrop-filter: blur(26px) saturate(200%);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+.mac-window {
+  background: var(--glass-surface-strong);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.08);
+  border-radius: 24px;
+}
+
+.mac-chrome {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.72) 100%);
+}
+
+.mac-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.mac-dot.red { background: #ff5f57; }
+.mac-dot.yellow { background: #febc2e; }
+.mac-dot.green { background: #28c840; }
+
+/* Smooth transitions */
+.transition-smooth {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.transition-bounce {
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Text utilities */
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Tailwind color overrides to align with Claude palette */
+.text-slate-900,
+.text-slate-800,
+.text-slate-700 {
+  color: var(--text-primary) !important;
+}
+
+.text-slate-600,
+.text-slate-500,
+.text-slate-400 {
+  color: var(--text-secondary) !important;
+}
+
+.bg-white\/30 { background-color: rgba(255, 255, 255, 0.32) !important; }
+.bg-white\/40 { background-color: rgba(255, 255, 255, 0.4) !important; }
+.bg-white\/50 { background-color: rgba(255, 255, 255, 0.5) !important; }
+.bg-white\/60 { background-color: rgba(255, 255, 255, 0.6) !important; }
+.border-white\/30 { border-color: rgba(255, 255, 255, 0.32) !important; }
+.border-white\/40 { border-color: rgba(255, 255, 255, 0.4) !important; }
+.border-white\/50 { border-color: rgba(255, 255, 255, 0.5) !important; }
+.border-white\/60 { border-color: rgba(255, 255, 255, 0.6) !important; }
+
+/* Loading shimmer effect */
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* =====================================================
+   ACCESSIBILITY
+   ===================================================== */
+
+/* Focus styles for keyboard navigation */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid #007AFF;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* =====================================================
+   PRINT STYLES
+   ===================================================== */
+
+@media print {
+  body {
+    background: white;
+    background-image: none;
+  }
+  
+  .glass-surface,
+  .glass-surface-strong {
+    background: white;
+    backdrop-filter: none;
+    border: 1px solid #e0e0e0;
+  }
+}
+
+/* =====================================================
+   DARK MODE SUPPORT (Future Enhancement)
+   ===================================================== */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-body: #0c0f1c;
+    --bg-body-gradient: radial-gradient(at 15% 20%, rgba(111, 91, 255, 0.2) 0, transparent 45%),
+      radial-gradient(at 80% 10%, rgba(255, 214, 102, 0.16) 0, transparent 40%),
+      radial-gradient(at 40% 90%, rgba(82, 130, 255, 0.16) 0, transparent 45%),
+      radial-gradient(at 90% 80%, rgba(35, 48, 89, 0.4) 0, transparent 40%);
+    --glass-surface: rgba(20, 24, 39, 0.82);
+    --glass-surface-strong: rgba(24, 29, 48, 0.9);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-shadow: 0 14px 48px rgba(0, 0, 0, 0.35);
+    --text-primary: #e5e7eb;
+    --text-secondary: #cbd5e1;
+    --muted: #94a3b8;
+    --accent: #9fa5ff;
+    --accent-2: #f5c76d;
+    --accent-soft: rgba(159, 165, 255, 0.2);
+    --selection-bg: rgba(159, 165, 255, 0.2);
+  }
+
+  body {
+    color: var(--text-primary);
+  }
+
+  .mac-chrome {
+    background: linear-gradient(180deg, rgba(37, 42, 65, 0.9) 0%, rgba(30, 36, 55, 0.9) 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  }
+
+  /* Dark overrides for translucent whites */
+  .bg-white\/30 { background-color: rgba(255, 255, 255, 0.08) !important; }
+  .bg-white\/40 { background-color: rgba(255, 255, 255, 0.12) !important; }
+  .bg-white\/50 { background-color: rgba(255, 255, 255, 0.16) !important; }
+  .bg-white\/60 { background-color: rgba(255, 255, 255, 0.2) !important; }
+  .border-white\/30 { border-color: rgba(255, 255, 255, 0.12) !important; }
+  .border-white\/40 { border-color: rgba(255, 255, 255, 0.16) !important; }
+  .border-white\/50 { border-color: rgba(255, 255, 255, 0.2) !important; }
+  .border-white\/60 { border-color: rgba(255, 255, 255, 0.24) !important; }
+}
